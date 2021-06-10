@@ -3,27 +3,24 @@ package com.cirrusmd.billing;
 option go_package = "pkg/rpc";
 
 service Billing {
-  rpc AddDiskIOMetrics(DiskIOMetricsReq) returns (CustomerBilledResp);
-  rpc AddNetIOMetrics(NetIOMetricsReq) returns (CustomerBilledResp);
+  rpc AddIOMetrics(IOMetricsReq) returns (CustomerBilledResp);
 }
 
-message DiskIOMetricsReq {
-  string customer = 1; // UUID for Customer to charge (bill)
-  string name = 2; // Device name
-  string serial = 3; // Device serial number
-  int64 reads = 4; // Counter
-  int64 writes = 5; // Counter
-  int64 read_bytes = 6; // Counter in Bytes
-  int64 write_bytes = 7; // Counter in Bytes
-}
-
-message NetIOMetricsReq {
-  string customer = 1;
+message IOMetricsReq {
+  UUID id = 1; // UUID for Customer to charge (bill)
+  int64 reads = 4; // Reads is a counter of number of reads
+  int64 writes = 5; // Writes is a counter of number of writes
+  int64 readBytes = 6; // readBytes is total number of bytes read
+  int64 writeBytes = 7; // writeBytes is total number of bytes written
 }
 
 message CustomerBilledResp {
-  string customer = 1; // UUID for Customer being Charged; Used to Validate Chargeback
+  UUID id = 1; // UUID for Customer to charge (bill)
   int64 unitsBilled = 2;
   int64 perUnitCost = 3;
   int64 totalMonthlyCharged = 4;
+}
+
+message UUID {
+  string value = 1;
 }

@@ -9,18 +9,9 @@ import (
 // Server implements the Haberdasher service
 type Server struct{}
 
-func (s *Server) AddDiskIOMetrics(ctx context.Context, dio *pb.DiskIOMetricsReq) (res *pb.CustomerBilledResp, err error) {
+func (s *Server) AddIOMetrics(ctx context.Context, dio *pb.IOMetricsReq) (res *pb.CustomerBilledResp, err error) {
 	return &pb.CustomerBilledResp{
-		Customer:            dio.Customer,
-		UnitsBilled:         0,
-		PerUnitCost:         0,
-		TotalMonthlyCharged: 0,
-	}, nil
-}
-
-func (s *Server) AddNetIOMetrics(ctx context.Context, nio *pb.NetIOMetricsReq) (hat *pb.CustomerBilledResp, err error) {
-	return &pb.CustomerBilledResp{
-		Customer:            nio.Customer,
+		Id:                  dio.Id,
 		UnitsBilled:         0,
 		PerUnitCost:         0,
 		TotalMonthlyCharged: 0,
