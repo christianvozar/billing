@@ -6,30 +6,29 @@ import (
 )
 
 // New constructs a new io.Writer with associated metrics.
-func NewWriterWithMetrics(w io.Writer) *WriterWithMetrics {
-	return &WriterWithMetrics{w: w}
+func NewWriterWithMetrics() *WriterWithMetrics {
+	return &WriterWithMetrics{}
 }
 
 type WriterWithMetrics struct {
 	w      io.Writer
-	writes int32
+	writes int64
 	bytes  int64
 }
 
-// Write implements io.Writer.
-func (wm *WriterWithMetrics) Write(b []byte) (int, error) {
-	atomic.AddInt32(&wm.writes, 1)
+func (wm *WriterWithMetrics) Write(b []byte) {
+	atomic.AddInt64(&wm.writes, 1)
 	atomic.AddInt64(&wm.bytes, int64(len(b)))
-	return wm.w.Write(b)
+	return
 }
 
-func (wm *WriterWithMetrics) WriteCount() (n int64, nops int32) {
+func (wm *WriterWithMetrics) WriteCount() (n int64, nops int64) {
 	return wm.Bytes(), wm.Writes()
 }
 
 // Writes returns the total number of writes.
-func (wm *WriterWithMetrics) Writes() int32 {
-	return atomic.LoadInt32(&wm.writes)
+func (wm *WriterWithMetrics) Writes() int64 {
+	return atomic.LoadInt64(&wm.writes)
 }
 
 // Bytes returns the number of total bytes written.

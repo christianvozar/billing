@@ -7,7 +7,7 @@ service Billing {
 }
 
 message IOMetricsReq {
-  UUID id = 1; // UUID for Customer to charge (bill)
+  string name = 1; // UUID for Customer to charge (bill)
   int64 reads = 4; // Reads is a counter of number of reads
   int64 writes = 5; // Writes is a counter of number of writes
   int64 readBytes = 6; // readBytes is total number of bytes read
@@ -15,12 +15,8 @@ message IOMetricsReq {
 }
 
 message CustomerBilledResp {
-  UUID id = 1; // UUID for Customer to charge (bill)
+  string name = 1; // UUID for Customer to charge (bill)
   int64 unitsBilled = 2;
-  int64 perUnitCost = 3;
-  int64 totalMonthlyCharged = 4;
-}
-
-message UUID {
-  string value = 1;
+  double perUnitCost = 3;
+  double totalMonthlyCharged = 4;
 }

@@ -43,6 +43,7 @@ consume.`,
 					rm.Read(i)
 
 					dio := &rpc.IOMetricsReq{}
+					dio.Name = "Allen Ginsberg"
 					dio.ReadBytes = rm.Bytes()
 					dio.Reads = rm.Reads()
 
